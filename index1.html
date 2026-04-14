@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Казино на звездах</title>
+    <!-- Подключаем библиотеку для работы с Телеграмом -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #1e2a3a;
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        button {
+            background-color: #f1c40f;
+            color: #2c3e50;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 50px;
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎰 Однорукий бандит</h1>
+<p>Стоимость одного кручения: <strong>1 звезда</strong></p>
+<button onclick="spin()">🎲 Крутить! 🎲</button>
+<div id="result"></div>
+
+<script>
+    // Получаем объект Telegram WebApp
+    let tg = window.Telegram.WebApp;
+    // Разворачиваем приложение на весь экран
+    tg.expand();
+    // Показываем, что приложение готово
+    tg.ready();
+
+    async function spin() {
+        // Показываем заглушку
+        document.getElementById('result').innerHTML = "Крутим...";
+
+        // Здесь должна быть логика связи с твоим бэкендом для списания звезд и вычисления выигрыша.
+        // Пока это просто демо-заглушка, чтобы показать, как это работает.
+        // Когда ты настроишь бэкенд, здесь будет запрос на твой сервер.
+        // Вместо реальной логики, пока просто имитируем результат.
+        setTimeout(() => {
+            // Генерируем случайное число от 1 до 100
+            let rand = Math.floor(Math.random() * 100) + 1;
+            let win = 0;
+            let message = "❌ Вы проиграли!";
+            if (rand > 95) {
+                win = 10;
+                message = `🍒🍒🍒 ДЖЕКПОТ! Вы выиграли ${win} звезд! 🍒🍒🍒`;
+            } else if (rand > 80) {
+                win = 2;
+                message = `👍 Неплохо! Вы выиграли ${win} звезды.`;
+            }
+            document.getElementById('result').innerHTML = message;
+
+            // Если есть выигрыш, отправляем его на сервер через alert (для демо)
+            if (win > 0) {
+                tg.showAlert(`Поздравляем! Вы выиграли ${win} звезд!`);
+                // В реальном приложении здесь должен быть запрос к API для начисления выигрыша.
+            } else {
+                tg.showAlert(`Выпало число ${rand}. Увы, в этот раз не повезло.`);
+            }
+        }, 500);
+    }
+</script>
+
+</body>
+</html>
